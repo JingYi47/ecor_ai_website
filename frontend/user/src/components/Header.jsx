@@ -1,7 +1,9 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 export default function Header() {
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
 
   return (
     <header className="header">
@@ -16,10 +18,7 @@ export default function Header() {
 
           <div className="menu-item dropdown-parent">
             <span>Sản Phẩm</span>
-            <button
-              className="dropdown-btn"
-              onClick={() => setOpen(!open)}
-            >
+            <button className="dropdown-btn" onClick={() => setOpen(!open)}>
               ▼
             </button>
 
@@ -40,7 +39,13 @@ export default function Header() {
         <div className="header-actions">
           <input className="search-bar" placeholder="Tìm kiếm..." />
           <div className="cart-icon">🛒</div>
-          <button className="login-btn">Đăng nhập</button>
+
+          <button
+            className="header-login-btn"
+            onClick={() => navigate("/login")}
+          >
+            Đăng nhập
+          </button>
         </div>
       </div>
     </header>

@@ -105,14 +105,14 @@ nav {
   display: flex;
   gap: 24px;
 }
-.login-btn {
+.header-login-btn {
   background:#a8d3f0 ;
   border: none;
   padding: 8px 18px;
   border-radius: 999px;
   cursor: pointer;
 }
-.login-btn:hover {
+.header-login-btn:hover {
   background:#698fa9 ;
 }
 /* HERO */

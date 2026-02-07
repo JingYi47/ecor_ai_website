@@ -1,12 +1,12 @@
-import Header from "../components/Header";
-import Footer from "../components/footer";
-import Hero from "../components/Hero";
-import Categories from "../components/Categories";
-import ProductSection from "../components/ProductSection";
-import FlashSale from "../components/FlashSale";
-import Services from "../components/Services";
-import iphone from "../assets/iphone1.jpg";
-import "../styles/home.css";
+import Header from "../../components/Header";
+import Footer from "../../components/footer";
+import Hero from "../../components/Hero";
+import Categories from "../../components/Categories";
+import ProductSection from "../../components/ProductSection";
+import FlashSale from "../../components/FlashSale";
+import Services from "../../components/Services";
+import iphone from "../../assets/iphone1.jpg";
+import "./home.css";
 
 const products = [
   {

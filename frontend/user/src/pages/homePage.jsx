@@ -32,7 +32,7 @@ export default function HomePage() {
         <FlashSale />
         <ProductSection products={products} showHeader={false} />
 
-        <Services />
+        {/* <Services /> */}
       </main>
       <Footer />
     </>

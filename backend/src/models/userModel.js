@@ -14,7 +14,21 @@ const userSchema = new mongoose.Schema(
       lowercase: true,
       trim: true,
     },
-    password: { type: String, required: true },
+    // password: { type: String, required: true },
+    password: {
+      type: String,
+      required: function () {
+        return this.provider === "local";
+      },
+    },
+    provider: {
+      type: String,
+      enum: ["local", "google"],
+      default: "local",
+    },
+    googleId: {
+      type: String,
+    },
 
     // xác thực bảo mật
     isVerified: { type: Boolean, default: false },

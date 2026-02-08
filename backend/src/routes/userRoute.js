@@ -1,5 +1,6 @@
 import express from "express";
 import {
+  loginWithGoogle,
   register,
   verifyEmailToken,
   resendVerificationEmail,
@@ -19,6 +20,7 @@ import { isAuthenticated } from "../middleware/isAuthenticated.js";
 
 const router = express.Router();
 
+router.post("/google", loginWithGoogle);
 router.post("/register", express.urlencoded({ extended: true }), register);
 router.get("/verify", verifyEmailToken);
 router.post("/resend-verification", resendVerificationEmail);

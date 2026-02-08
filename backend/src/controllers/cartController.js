@@ -3,11 +3,28 @@ import { Product } from "../models/productModel.js";
 
 // tính lại giỏ hàng
 const recalcCart = (cart) => {
-  const selectedItems = cart.items.filter((i) => i.isSelected);
+  // const items = cart.items || [];
+  const items = Array.isArray(cart?.items) ? cart.items : [];
+  if (items.length === 0) {
+    cart.subtotal = 0;
+    cart.total = 0;
+    cart.discountApplied = 0;
+    return;
+  }
 
-  const selectedSubtotal = selectedItems.reduce((sum, item) => {
-    return sum + item.priceAtAddition * item.quantity;
-  }, 0);
+  // const selectedItems = items.filter((i) => i.isSelected);
+  const selectedItems = items.filter((i) => i.isSelected);
+
+  // const selectedSubtotal = selectedItems.reduce(
+  //   (sum, item) => sum + item.priceAtAddition * item.quantity,
+  //   0,
+  // );
+  const selectedSubtotal = (
+    Array.isArray(selectedItems) ? selectedItems : []
+  ).reduce(
+    (sum, item) => sum + (item.priceAtAddition || 0) * (item.quantity || 0),
+    0,
+  );
 
   cart.subtotal = selectedSubtotal;
   cart.total = Math.max(selectedSubtotal - cart.discountApplied, 0);

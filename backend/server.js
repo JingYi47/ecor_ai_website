@@ -1,5 +1,5 @@
-import express from "express";
 import dotenv from "dotenv";
+import express from "express";
 import cors from "cors";
 import connectDB from "./src/database/db.js";
 import userRoute from "./src/routes/userRoute.js";
@@ -9,6 +9,9 @@ import categoryRoutes from "./src/routes/categoryRoutes.js";
 import cartRoutes from "./src/routes/cartRoutes.js";
 import checkoutRoutes from "./src/routes/checkoutRoute.js";
 import couponRoutes from "./src/routes/couponRoutes.js";
+import paymentRoutes from "./src/routes/paymentRoute.js";
+import orderRoutes from "./src/routes/orderRoutes.js";
+import reviewRoutes from "./src/routes/reviewRoutes.js";
 import "./src/models/userModel.js";
 import "./src/models/productModel.js";
 import "./src/models/categoryModel.js";
@@ -26,6 +29,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 // middleware
 app.use(cors());
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
@@ -36,7 +40,9 @@ app.use("/api/v1/categories", categoryRoutes);
 app.use("/api/v1/cart", cartRoutes);
 app.use("/api/v1/checkout", checkoutRoutes);
 app.use("/api/v1/coupon", couponRoutes);
-
+app.use("/api/v1/payment", paymentRoutes);
+app.use("/api/v1/orders", orderRoutes);
+app.use("/api/v1/reviews", reviewRoutes);
 // http://localhost:8000/api/v1/user/register
 
 connectDB();

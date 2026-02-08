@@ -26,18 +26,21 @@ const productSchema = new mongoose.Schema(
 
     brand: { type: String, required: true },
 
-    colors: [
-      {
-        name: { type: String, required: true },
-        images: [
-          {
-            url: { type: String, required: true },
-            public_id: { type: String },
-          },
-        ],
-        stock: { type: Number, default: 0 },
-      },
-    ],
+    colors: {
+      type: [
+        {
+          name: { type: String, required: true },
+          images: [
+            {
+              url: { type: String, required: true },
+              public_id: { type: String },
+            },
+          ],
+          stock: { type: Number, default: 0 },
+        },
+      ],
+      default: [],
+    },
 
     specifications: { type: Map, of: String, default: {} },
 
@@ -117,7 +120,12 @@ productSchema.virtual("isOnSale").get(function () {
 productSchema.virtual("salePrice").get(function () {
   return this.isOnSale ? this.price : this.originalPrice;
 });
+// productSchema.virtual("totalStock").get(function () {
+//   return this.colors.reduce((sum, c) => sum + (c.stock || 0), 0);
+// });
+
 productSchema.virtual("totalStock").get(function () {
+  if (!this.colors || this.colors.length === 0) return 0;
   return this.colors.reduce((sum, c) => sum + (c.stock || 0), 0);
 });
 

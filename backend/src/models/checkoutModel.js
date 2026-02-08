@@ -37,8 +37,16 @@ const checkoutSchema = new mongoose.Schema(
     // Thanh toán
     paymentMethod: {
       type: String,
-      enum: ["COD", "VNPAY", "MOMO", "BANKING"],
+      enum: ["COD", "VNPAY", "MOMO"],
       default: "COD",
+    },
+    paymentAttempts: {
+      type: Number,
+      default: 0,
+    },
+
+    lastPaymentAt: {
+      type: Date,
     },
 
     // Trạng thái

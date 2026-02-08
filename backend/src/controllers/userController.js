@@ -3,6 +3,7 @@ import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { verifyEmail, sendWelcomeEmail } from "../emailVerify/verifyEmail.js";
 import { sendOtpEmail } from "../emailVerify/sendOtpEmail.js";
+import { OAuth2Client } from "google-auth-library";
 
 //ĐĂNG KÝ
 export const register = async (req, res) => {
@@ -17,7 +18,7 @@ export const register = async (req, res) => {
       gender,
     } = req.body;
 
-    // Kiểm tra thông tin bắt buộc
+    // thông tin
     if (!firstName || !lastName || !email || !password) {
       return res.status(400).json({
         success: false,
@@ -25,7 +26,7 @@ export const register = async (req, res) => {
       });
     }
 
-    // Kiểm tra email hợp lệ
+    // email
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       return res.status(400).json({
@@ -34,7 +35,7 @@ export const register = async (req, res) => {
       });
     }
 
-    // Kiểm tra độ dài mật khẩu
+    // độ dài mk
     if (password.length < 6) {
       return res.status(400).json({
         success: false,
@@ -42,7 +43,7 @@ export const register = async (req, res) => {
       });
     }
 
-    // Kiểm tra user đã tồn tại chưa
+    // user đã tồn tại ?
     const existingUser = await User.findOne({ email });
     if (existingUser) {
       return res.status(400).json({
@@ -67,7 +68,7 @@ export const register = async (req, res) => {
       isVerified: false,
     });
 
-    // Tạo verification token (CHO EMAIL VERIFY)
+    // Tạo verification token cho email
     const verificationToken = jwt.sign(
       { userId: newUser._id, email: newUser.email },
       process.env.JWT_SECRET,
@@ -77,28 +78,12 @@ export const register = async (req, res) => {
     // Gửi email xác thực
     try {
       await verifyEmail(email, verificationToken, firstName);
-      console.log(`✅ Email verify đã gửi đến ${email}`);
+      console.log(`Email verify đã gửi đến ${email}`);
     } catch (emailError) {
       console.error(" Lỗi gửi email:", emailError);
     }
 
-    // Tạo token JWT cho đăng nhập
-    // const token = jwt.sign(
-    //   {
-    //     userId: newUser._id,
-    //     email: newUser.email,
-    //     role: newUser.role,
-    //     isVerified: false,
-    //   },
-    //   process.env.JWT_SECRET,
-    //   { expiresIn: "7d" },
-    // );
-
-    // Cập nhật token vào database
-    // newUser.token = token;
-    // await newUser.save();
-
-    // Ẩn mật khẩu trong response
+    // Ẩn mật khẩu
     const userResponse = newUser.toObject();
     delete userResponse.password;
 
@@ -119,7 +104,7 @@ export const register = async (req, res) => {
   }
 };
 
-// XÁC THỰC EMAIL
+// xác thực email
 export const verifyEmailToken = async (req, res) => {
   try {
     const { token } = req.query;
@@ -763,6 +748,91 @@ export const resetPassword = async (req, res) => {
     return res.status(500).json({
       success: false,
       message: "Lỗi máy chủ. Vui lòng thử lại sau.",
+    });
+  }
+};
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+// ĐĂNG NHẬP BẰNG GOOGLE
+export const loginWithGoogle = async (req, res) => {
+  try {
+    const { idToken } = req.body;
+
+    if (!idToken) {
+      return res.status(400).json({
+        success: false,
+        message: "Thiếu idToken từ Google",
+      });
+    }
+
+    // Verify token với Google
+    const ticket = await googleClient.verifyIdToken({
+      idToken,
+      audience: process.env.GOOGLE_CLIENT_ID,
+    });
+
+    const payload = ticket.getPayload();
+    const { email, given_name, family_name, picture, sub } = payload;
+
+    if (!email) {
+      return res.status(400).json({
+        success: false,
+        message: "Google token không hợp lệ",
+      });
+    }
+
+    // Tìm user
+    let user = await User.findOne({ email });
+
+    // Nếu chưa có user → tạo mới
+    if (!user) {
+      user = await User.create({
+        email,
+        firstName: given_name || "",
+        lastName: family_name || "",
+        password: null,
+        isVerified: true,
+        isActive: true,
+        avatar: picture,
+        provider: "google",
+        googleId: sub,
+        role: "user",
+      });
+    }
+
+    // Nếu user bị khóa
+    if (user.isActive === false) {
+      return res.status(403).json({
+        success: false,
+        message: "Tài khoản đã bị khóa",
+      });
+    }
+
+    // Tạo JWT giống login thường
+    const token = jwt.sign(
+      {
+        userId: user._id,
+        email: user.email,
+        role: user.role,
+        isVerified: true,
+      },
+      process.env.JWT_SECRET,
+      { expiresIn: "7d" },
+    );
+
+    const userResponse = user.toObject();
+    delete userResponse.password;
+
+    return res.status(200).json({
+      success: true,
+      message: "Đăng nhập Google thành công",
+      user: userResponse,
+      token,
+    });
+  } catch (error) {
+    console.error("Google login error:", error);
+    return res.status(401).json({
+      success: false,
+      message: "Google token không hợp lệ hoặc đã hết hạn",
     });
   }
 };

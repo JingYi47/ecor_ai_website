@@ -9,6 +9,7 @@ const reviewSchema = new mongoose.Schema(
       required: true,
     },
     rating: { type: Number, required: true, min: 1, max: 5 },
+    isHidden: { type: Boolean, default: false },
     comment: { type: String },
   },
   { timestamps: true },

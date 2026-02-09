@@ -1,16 +1,36 @@
-import { useState } from "react";
-import { FaEye, FaEyeSlash } from "react-icons/fa";
 import "./Login.css";
 import logologin from "../../assets/logologin.jpg";
+import { useNavigate } from "react-router-dom";
+import { useState } from "react";
 
 export default function Login() {
+  const navigate = useNavigate();
 
-  const [showPassword, setShowPassword] = useState(false);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const handleLogin = () => {
+    // fake check
+    if (!email || !password) {
+      alert("Vui lòng nhập đầy đủ thông tin");
+      return;
+    }
+
+    // giả lập user
+    const fakeUser = {
+      email,
+      name: "Jay",
+    };
+
+    localStorage.setItem("user", JSON.stringify(fakeUser));
+
+    // quay về trang chủ
+    navigate("/");
+  };
 
   return (
     <div className="login-wrapper">
       <div className="login-container">
-
         {/* LEFT */}
         <div className="login-left">
           <h1>
@@ -24,44 +44,31 @@ export default function Login() {
           <h2>Đăng nhập</h2>
 
           <input
-            className="input-field"
             type="text"
             placeholder="Nhập địa chỉ Email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
           />
 
-          <div className="password-field">
-            <input
-              className="input-field"
-              type={showPassword ? "text" : "password"}
-              placeholder="Password"
-            />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
 
-            <span
-              className="eye-icon"
-              onClick={() => setShowPassword(!showPassword)}
-            >
-              {showPassword ? <FaEyeSlash /> : <FaEye />}
-            </span>
-          </div>
+          <p className="register-text">
+            Chưa có tài khoản? <a href="/register">Đăng ký ngay</a>
+          </p>
 
-          <div className="extra-row">
-            <p className="login-text">Quên mật khẩu?</p>
-            <p className="register-text">
-              Chưa có tài khoản? <a href="/register">Đăng ký ngay</a>
-            </p>
-          </div>
-
-          <button className="login-btn">Đăng nhập</button>
+          <button onClick={handleLogin}>Đăng nhập</button>
 
           <p className="login-divider">
             <span>Hoặc đăng nhập với</span>
           </p>
 
-          <div className="google-btn">
-            Sign up with Google
-          </div>
+          <div className="google-btn">Sign up with Google</div>
         </div>
-
       </div>
     </div>
   );

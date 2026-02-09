@@ -13,7 +13,7 @@ import CheckoutPage from "../pages/checkout/checkout";
 import CheckOrderPage from "../pages/checkout_Order/checkOrder";
 import Order from "../pages/order/order";
 import CartPage from "../pages/CartPage/CartPage";
-
+import FavoritePage from "../pages/FavoritePage/FavoritePage.jsx";
 function AppRouter() {
   return (
     <Router>
@@ -32,6 +32,7 @@ function AppRouter() {
         <Route path="/checkorder" element={<CheckOrderPage />} />
         <Route path="/Order" element={<Order />} />
         <Route path="/product/:id" element={<ProductDetailPage />} />
+        <Route path="/favorites" element={<FavoritePage />} />
       </Routes>
     </Router>
   );

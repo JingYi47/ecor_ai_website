@@ -1,5 +1,10 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { AiOutlineHeart } from "react-icons/ai";
+import { FiShoppingCart } from "react-icons/fi";
+import { FiUser } from "react-icons/fi";
+
+
 
 export default function Header() {
   const [openProduct, setOpenProduct] = useState(false);
@@ -70,13 +75,14 @@ export default function Header() {
         {/* ACTIONS */}
         <div className="header-actions">
           <input className="search-bar" placeholder="Tìm kiếm..." />
-          <div
-            className="cart-icon"
-            onClick={() => navigate("/cart")}
-            style={{ cursor: "pointer" }}
-          >
-            🛒
-          </div>
+
+        <div className="favorite-icon" onClick={() => navigate("/favorites")} style={{ cursor: "pointer" }}>
+          <AiOutlineHeart />
+        </div>
+          <div className="cart-icon" onClick={() => navigate("/cart")} style={{ cursor: "pointer" }}>
+          <FiShoppingCart />
+        </div>
+
 
           {/* CHƯA LOGIN */}
           {!user && (
@@ -91,11 +97,8 @@ export default function Header() {
           {/* ĐÃ LOGIN */}
           {user && (
             <div className="user-dropdown">
-              <button
-                className="user-avatar"
-                onClick={() => setOpenUser(!openUser)}
-              >
-                <span className="user-icon">👤</span>
+              <button className="user-avatar" onClick={() => setOpenUser(!openUser)}>
+                 <FiUser className="user-icon" />
               </button>
 
               {openUser && (

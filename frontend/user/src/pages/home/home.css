@@ -89,9 +89,14 @@
   width: 160px;
 }
 /* CART */
+.favorite-icon ,
 .cart-icon {
   font-size: 20px;
   cursor: pointer;
+}
+.favorite-icon:hover {
+  transform: scale(1.2);
+  color: red;
 }
 
 .logo {

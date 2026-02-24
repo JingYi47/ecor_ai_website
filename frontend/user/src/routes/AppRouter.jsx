@@ -14,6 +14,9 @@ import CheckOrderPage from "../pages/checkout_Order/checkOrder";
 import Order from "../pages/order/order";
 import CartPage from "../pages/CartPage/CartPage";
 import FavoritePage from "../pages/FavoritePage/FavoritePage.jsx";
+import Profile from "../pages/Profile/Profile.jsx"
+import AddressManagement from "../pages/AddressManagement/AddressManagement.jsx"
+import PaymentManagement from "../pages/PaymentManagement/PaymentManagement.jsx"
 function AppRouter() {
   return (
     <Router>
@@ -33,6 +36,9 @@ function AppRouter() {
         <Route path="/Order" element={<Order />} />
         <Route path="/product/:id" element={<ProductDetailPage />} />
         <Route path="/favorites" element={<FavoritePage />} />
+        <Route path="/profile" element={<Profile />} />
+        <Route path="/profile/address" element={<AddressManagement />} />
+        <Route path="/profile/payment" element={<PaymentManagement />} />
       </Routes>
     </Router>
   );

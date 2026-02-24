@@ -103,7 +103,7 @@ export default function Header() {
 
               {openUser && (
                 <div className="user-menu">
-                  <div> Thông tin tài khoản</div>
+                  <div onClick={() => goTo("/profile")}> Thông tin tài khoản</div>
                   <div onClick={() => goTo("/order")}> Đơn hàng của tôi</div>
                   <div> Đánh giá</div>
                   <div className="logout" onClick={handleLogout}>

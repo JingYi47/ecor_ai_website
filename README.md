@@ -1,114 +1,103 @@
-# Ecor AI Website – Fullstack Project
+# 🌱 Ecor AI Website – Fullstack Project
 
 ## 1. Giới thiệu
 
-*Ecor AI Website* là hệ thống website thương mại điện tử được xây dựng theo mô hình *Fullstack*.
+**Ecor AI Website** là hệ thống website **thương mại điện tử** được xây dựng theo mô hình **Fullstack**.
 
-Project bao gồm 3 phần chính:
+Project được tổ chức theo **mono-repo**, bao gồm **Backend + Frontend User + Frontend Admin**, phù hợp cho làm việc nhóm và triển khai thực tế.
 
-- **Backend**: Node.js + Express + MongoDB – cung cấp REST API
+### Thành phần chính
+- **Backend**: Node.js + Express + MongoDB – cung cấp RESTful API
 - **Frontend User**: Website cho người dùng mua sắm
-- **Frontend Admin**: Website quản trị dành cho admin
-
-Source code được tổ chức theo mô hình **mono-repo**, phù hợp cho làm việc nhóm và quản lý dự án.
+- **Frontend Admin**: Website quản trị dành cho Admin
 
 ---
 
 ## 2. Kiến trúc tổng thể
 
-Frontend User  ──┐
-                 ├── REST API ── Backend ── MongoDB
+
+Frontend User ──┐
+├── REST API ── Backend ── MongoDB
 Frontend Admin ──┘
 
-Backend xử lý nghiệp vụ và dữ liệu
 
-Frontend User & Admin gọi API từ Backend
+- Backend xử lý nghiệp vụ & dữ liệu  
+- Frontend User / Admin gọi API từ Backend  
+- Phân quyền rõ ràng giữa **User** và **Admin**
 
-Phân quyền rõ ràng giữa User và Admin
+---
 
-3. Công nghệ sử dụng
-3.1 Backend
+## 3. Công nghệ sử dụng
 
-Node.js
+### 3.1 Backend
+- Node.js
+- Express.js
+- MongoDB + Mongoose
+- JWT Authentication
+- VNPay Payment Gateway
+- MoMo Payment Gateway
+- dotenv, bcrypt, cors
 
-Express.js
+### 3.2 Frontend User
+- React + Vite
+- TypeScript
+- Axios
+- React Router
+- CSS / Tailwind CSS (tuỳ cấu hình)
 
-MongoDB + Mongoose
+### 3.3 Frontend Admin
+- React + Vite
+- TypeScript
+- Axios
+- React Router
+- Dashboard quản trị
 
-JWT Authentication
+---
 
-VNPay Payment Gateway
+## 4. Cấu trúc thư mục
 
-MoMo Payment Gateway
 
-dotenv, bcrypt, cors
-
-3.2 Frontend User
-
-React + Vite
-
-TypeScript
-
-Axios
-
-React Router
-
-CSS / Tailwind CSS (tuỳ cấu hình)
-
-3.3 Frontend Admin
-
-React + Vite
-
-TypeScript
-
-Axios
-
-React Router
-
-Dashboard quản trị
-
-4. Cấu trúc thư mục
 ecor_ai_website/
 │
-├── backend/                 # Backend Node.js
-│   ├── src/
-│   │   ├── controllers/     # Xử lý logic
-│   │   ├── models/          # Schema MongoDB
-│   │   ├── routes/          # Định nghĩa API
-│   │   ├── middlewares/     # Auth, phân quyền
-│   │   ├── configs/         # Cấu hình DB, payment
-│   │   └── utils/           # Hàm hỗ trợ
-│   ├── .env                 
-│   ├── server.js
-│   └── package.json
+├── backend/ # Backend Node.js
+│ ├── src/
+│ │ ├── controllers/ # Xử lý nghiệp vụ
+│ │ ├── models/ # Schema MongoDB
+│ │ ├── routes/ # Định nghĩa API
+│ │ ├── middlewares/ # Auth, phân quyền
+│ │ ├── configs/ # Cấu hình DB, payment
+│ │ └── utils/ # Hàm hỗ trợ
+│ ├── .env # Biến môi trường 
+│ ├── server.js
+│ └── package.json
 │
 ├── frontend/
-│   └── user/                # Frontend người dùng
-│       ├── src/
-│       ├── public/
-│       └── package.json
+│ └── user/ # Frontend người dùng
+│ ├── src/
+│ ├── public/
+│ └── package.json
 │
-├── pandora-admin/            # Frontend admin
-│   ├── src/
-│   ├── public/
-│   └── package.json
+├── pandora-admin/ # Frontend admin
+│ ├── src/
+│ ├── public/
+│ └── package.json
 │
 ├── .gitignore
 └── README.md
-5. Yêu cầu môi trường
+
+
+---
+
+## 5. Yêu cầu môi trường
 
 Trước khi chạy project, cần cài đặt:
+- Node.js >= 16
+- npm hoặc yarn
+- MongoDB (Local hoặc MongoDB Atlas)
+- Trình duyệt Chrome / Edge
 
-Node.js >= 16
-
-npm hoặc yarn
-
-MongoDB (local hoặc MongoDB Atlas)
-
-Trình duyệt Chrome / Edge
-
-Kiểm tra Node.js:
-
+Kiểm tra:
+```bash
 node -v
 npm -v
 6. Clone project
@@ -141,9 +130,10 @@ MOMO_RETURN_URL=http://localhost:8000/api/payment/momo-return
 
 
 7.3 Chạy Backend
-Chạy development:
 npm run dev
-Hoặc chạy production:
+
+hoặc
+
 npm start
 
 👉 Backend chạy tại:
@@ -151,7 +141,7 @@ npm start
 http://localhost:8000
 8. Cài đặt & chạy Frontend User
 
-Mở terminal mới (không tắt backend):
+Mở terminal mới:
 
 cd frontend/user
 npm install
@@ -162,7 +152,7 @@ npm run dev
 http://localhost:5173
 9. Cài đặt & chạy Frontend Admin
 
-Mở terminal mới khác:
+Mở terminal khác:
 
 cd pandora-admin
 npm install
@@ -173,11 +163,11 @@ npm run dev
 http://localhost:5174
 10. Thứ tự chạy chuẩn (RẤT QUAN TRỌNG)
 
-1️⃣ Chạy Backend trước
+1️⃣ Chạy Backend
 2️⃣ Chạy Frontend User
 3️⃣ Chạy Frontend Admin
 
-👉 Nếu Backend chưa chạy → FE sẽ không gọi được API
+👉 Backend chưa chạy → Frontend sẽ không gọi được API
 
 11. Chức năng chính
 11.1 Người dùng (User)
@@ -214,14 +204,15 @@ Bảo vệ các API quan trọng
 
 13. Quy ước Git
 
-Không commit các thư mục / file sau:
+Không commit:
 
 node_modules/
+
 .env
 
 main: nhánh chính
 
-Feature branch cho từng thành viên
+Mỗi tính năng → tạo feature branch
 
 Merge thông qua Pull Request
 
@@ -240,5 +231,5 @@ Cấu hình URL Backend API
 
 15. Tác giả
 
-Ecor AI Website Team
+Ecor AI Website Team (Nhóm 1)
 Fullstack Project – Node.js & React

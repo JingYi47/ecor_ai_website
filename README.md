@@ -15,7 +15,7 @@ Project được tổ chức theo **mono-repo**, bao gồm **Backend + Frontend 
 
 ## 2. Kiến trúc tổng thể
 
-
+```text
 Frontend User ──┐
 ├── REST API ── Backend ── MongoDB
 Frontend Admin ──┘
@@ -25,7 +25,7 @@ Frontend Admin ──┘
 - Frontend User / Admin gọi API từ Backend  
 - Phân quyền rõ ràng giữa **User** và **Admin**
 
----
+```
 
 ## 3. Công nghệ sử dụng
 
@@ -56,7 +56,7 @@ Frontend Admin ──┘
 
 ## 4. Cấu trúc thư mục
 
-
+```text
 ecor_ai_website/
 │
 ├── backend/ # Backend Node.js
@@ -86,7 +86,7 @@ ecor_ai_website/
 └── README.md
 
 
----
+```
 
 ## 5. Yêu cầu môi trường
 
